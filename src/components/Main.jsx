@@ -2,18 +2,20 @@ import {
 	Box,
 	Button,
 	Card,
-	CardActionArea,
 	CardActions,
 	CardContent,
 	CardMedia,
 	Container,
 	CssBaseline,
 	Grid,
+	InputAdornment,
 	TextField,
 	Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { DoubleArrow, SearchOutlined } from "@material-ui/icons";
 import { useEffect, useState } from "react";
+import Loader from "react-loader-spinner";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
 
@@ -34,6 +36,34 @@ const useStyles = makeStyles({
 		height: "130px",
 		width: "150px",
 	},
+	btn: {
+		fontWeight: "bold",
+	},
+	searchIcon: {
+		color: "green",
+	},
+	cardHover: {
+		"&:hover": {
+			boxShadow: "0 0 10px gray",
+		},
+	},
+	loading: {
+		marginTop: "100px",
+	},
+	input: {
+		"& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+			borderColor: "green",
+		},
+		"&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+			borderColor: "black",
+		},
+		"& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+			borderColor: "green",
+		},
+		"& .MuiInputLabel-outlined.Mui-focused": {
+			color: "green",
+		},
+	},
 });
 
 const Main = () => {
@@ -42,11 +72,15 @@ const Main = () => {
 	const [countries, setCountries] = useState([]);
 	const [search, setSearch] = useState("");
 	const [filteredCountries, setFilteredCountries] = useState([]);
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		fetch("https://restcountries.eu/rest/v2/all")
 			.then((res) => res.json())
-			.then((data) => setCountries(data));
+			.then((data) => {
+				setCountries(data);
+				setLoading(false);
+			});
 	}, []);
 
 	useEffect(() => {
@@ -60,32 +94,45 @@ const Main = () => {
 			<Grid className={classes.search} container justify="space-evenly" alignItems="center">
 				<img src={logo} alt="" className={classes.logo} />
 				<TextField
+					autoComplete="off"
 					label="Search Country"
 					variant="outlined"
 					placeholder="Enter country name.."
 					defaultValue={search}
 					value={search}
 					onChange={(e) => setSearch(e.target.value)}
+					className={classes.input}
+					InputProps={{
+						endAdornment: (
+							<InputAdornment position="end">
+								<SearchOutlined className={classes.searchIcon} />
+							</InputAdornment>
+						),
+					}}
 				/>
 			</Grid>
-			<Grid container spacing={7} justify="space-around">
+			<Grid container spacing={5} justify="space-around">
+				{loading && (
+					<Grid>
+						<Loader type="Circles" color="green" height={130} width={130} className={classes.loading} />
+					</Grid>
+				)}
 				{filteredCountries.map((country) => (
-					<Grid item md={3} key={country.alpha3Code}>
-						<Card className={classes.root}>
-							<CardActionArea>
-								<CardMedia className={classes.media} image={country.flag} title="Contemplative Reptile" />
-								<CardContent className={classes.content}>
-									<Typography gutterBottom variant="h5" component="h1" align="center">
-										<Box fontWeight="fontWeightBold">{country.name}</Box>
-									</Typography>
-								</CardContent>
-							</CardActionArea>
+					<Grid item lg={3} md={4} sm={6} xs={12} key={country.alpha3Code} container justify="center">
+						<Card className={`${classes.root} ${classes.cardHover}`}>
+							<CardMedia className={classes.media} image={country.flag} title="Contemplative Reptile" />
+							<CardContent className={classes.content}>
+								<Typography gutterBottom variant="h5" component="h1" align="center">
+									<Box fontWeight="fontWeightBold">{country.name}</Box>
+								</Typography>
+							</CardContent>
 							<CardActions>
 								<Grid container justify="center">
 									<Button
+										className={classes.btn}
 										variant="contained"
-										color="primary"
 										disableElevation
+										endIcon={<DoubleArrow />}
 										component={Link}
 										to={`/${country.alpha2Code}`}
 									>
