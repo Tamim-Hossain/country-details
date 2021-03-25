@@ -50,6 +50,11 @@ const useStyles = makeStyles({
 	loading: {
 		marginTop: "100px",
 	},
+	notFound: {
+		marginTop: "100px",
+		fontWeight: "bold",
+		color: "red",
+	},
 	input: {
 		"& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
 			borderColor: "green",
@@ -98,7 +103,6 @@ const Main = () => {
 					label="Search Country"
 					variant="outlined"
 					placeholder="Enter country name.."
-					defaultValue={search}
 					value={search}
 					onChange={(e) => setSearch(e.target.value)}
 					className={classes.input}
@@ -111,12 +115,21 @@ const Main = () => {
 					}}
 				/>
 			</Grid>
+
 			<Grid container spacing={5} justify="space-around">
 				{loading && (
 					<Grid>
 						<Loader type="Circles" color="green" height={130} width={130} className={classes.loading} />
 					</Grid>
 				)}
+
+				{search.length === 0 ||
+					(filteredCountries.length === 0 && (
+						<Typography variant="h4" component="p" className={classes.notFound}>
+							Not Found!
+						</Typography>
+					))}
+
 				{filteredCountries.map((country) => (
 					<Grid item lg={3} md={4} sm={6} xs={12} key={country.alpha3Code} container justify="center">
 						<Card className={`${classes.root} ${classes.cardHover}`}>
