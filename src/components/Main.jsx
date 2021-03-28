@@ -15,6 +15,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import { DoubleArrow, SearchOutlined } from "@material-ui/icons";
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import Loader from "react-loader-spinner";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
@@ -95,6 +96,9 @@ const Main = () => {
 
 	return (
 		<Container>
+			<Helmet>
+				<title>Country Details</title>
+			</Helmet>
 			<CssBaseline />
 			<Grid className={classes.search} container justify="space-evenly" alignItems="center">
 				<img src={logo} alt="" className={classes.logo} />

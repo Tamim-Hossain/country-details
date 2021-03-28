@@ -1,4 +1,5 @@
 import {
+	Button,
 	Container,
 	Grid,
 	makeStyles,
@@ -10,7 +11,9 @@ import {
 	TableRow,
 	Typography,
 } from "@material-ui/core";
+import { ArrowBackIos } from "@material-ui/icons";
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import Loader from "react-loader-spinner";
 import { useParams } from "react-router";
 
@@ -20,7 +23,7 @@ const useStyles = makeStyles({
 		fontSize: "1rem",
 	},
 	details: {
-		padding: "35px 50px",
+		padding: "15px 50px 35px 50px",
 	},
 	loading: {
 		marginTop: "30vh",
@@ -28,6 +31,9 @@ const useStyles = makeStyles({
 	flag: {
 		height: "33px",
 		marginRight: "20px",
+	},
+	homeBtn: {
+		marginTop: "40px",
 	},
 });
 
@@ -49,6 +55,9 @@ const CountryDetails = () => {
 
 	return (
 		<Container>
+			<Helmet>
+				<title>{country.name}</title>
+			</Helmet>
 			<Grid container justify="center">
 				{loading && <Loader type="Grid" color="green" height={130} width={130} className={classes.loading} />}
 			</Grid>
@@ -158,7 +167,7 @@ const CountryDetails = () => {
 											Language
 										</TableCell>
 										<TableCell align="center" className={classes.tableData}>
-											{country.languages[0].name}
+											{country.languages[0]?.name}
 										</TableCell>
 									</TableRow>
 									<TableRow>
@@ -166,7 +175,7 @@ const CountryDetails = () => {
 											Native Language Spelling
 										</TableCell>
 										<TableCell align="center" className={classes.tableData}>
-											{country.languages[0].nativeName}
+											{country.languages[0]?.nativeName}
 										</TableCell>
 									</TableRow>
 									<TableRow>
@@ -174,7 +183,7 @@ const CountryDetails = () => {
 											Currency
 										</TableCell>
 										<TableCell align="center" className={classes.tableData}>
-											{country.currencies[0].name}
+											{country.currencies[0]?.name}
 										</TableCell>
 									</TableRow>
 									<TableRow>
@@ -182,7 +191,7 @@ const CountryDetails = () => {
 											Currency Code
 										</TableCell>
 										<TableCell align="center" className={classes.tableData}>
-											{country.currencies[0].code}
+											{country.currencies[0]?.code}
 										</TableCell>
 									</TableRow>
 									<TableRow>
@@ -190,7 +199,7 @@ const CountryDetails = () => {
 											Currency Symbol
 										</TableCell>
 										<TableCell align="center" className={classes.tableData}>
-											{country.currencies[0].symbol}
+											{country.currencies[0]?.symbol}
 										</TableCell>
 									</TableRow>
 									<TableRow>
@@ -198,13 +207,18 @@ const CountryDetails = () => {
 											Regional Blocs
 										</TableCell>
 										<TableCell align="center" className={classes.tableData}>
-											{country.regionalBlocs[0].acronym}
-											{country.regionalBlocs[0].name}
+											{country.regionalBlocs[0]?.acronym}
+											{country.regionalBlocs[0]?.name}
 										</TableCell>
 									</TableRow>
 								</TableBody>
 							</Table>
 						</TableContainer>
+						<Grid container justify="center">
+							<Button variant="contained" disableElevation className={classes.homeBtn}>
+								<ArrowBackIos /> BACK TO HOME
+							</Button>
+						</Grid>
 					</Grid>
 				</Grid>
 			)}
