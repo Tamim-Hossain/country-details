@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import Loader from "react-loader-spinner";
 import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
 	tableData: {
@@ -215,7 +216,7 @@ const CountryDetails = () => {
 							</Table>
 						</TableContainer>
 						<Grid container justify="center">
-							<Button variant="contained" disableElevation className={classes.homeBtn}>
+							<Button variant="contained" disableElevation className={classes.homeBtn} component={Link} to="/">
 								<ArrowBackIos /> BACK TO HOME
 							</Button>
 						</Grid>
